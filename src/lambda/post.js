@@ -18,13 +18,20 @@ exports.handler = (event, context, callback) => {
     }
   }
   try {
-    const { url, title } = parseQueryString(event.body)
-    if (!url && !title) {
+    const { url, title, content } = parseQueryString(event.body)
+    if (!url && !title && !content) {
       callback(null, {
         statusCode: 400,
         body: 'Bad request'
       })
     }
+    const decodedUrl = decodeURIComponent(url)
+    const decodedTitle = replacePlusSign(
+      decodeURIComponent(title)
+    )
+    const decodedContent = replacePlusSign(
+      decodeURIComponent(content)
+    )
     fetch(slackURL, {
       method: 'POST',
       headers: {
@@ -33,15 +40,15 @@ exports.handler = (event, context, callback) => {
       body: JSON.stringify({
         username: 'mjs',
         icon_emoji: ':javascript:',
-        text: `I\'m just post. **<${decodeURIComponent(url)}|${title || 'detail'}>**`,
-        pretext: `${title || 'detail'} - ${decodeURIComponent(url)}`,
+        pretext: `my javascript stacks.`,
+        text: `<${decodedUrl}|I\'m just post>`,
         color: '#5cb85c',
-        'unfurl_links': true, 
-        fields: {
-          title: title,
-          value: 'tumblr post',
-          short: false
-        }
+        fields: [
+          {
+            title: decodedTitle,
+            value: decodedContent
+          }
+        ]
       })
     }).then(()=>{
       callback(null, {
@@ -69,3 +76,6 @@ function parseQueryString(queryString) {
     }, {})
 }
 
+function replacePlusSign(str) {
+  return str.replace(/\+/g, ' ')
+}
