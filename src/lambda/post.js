@@ -33,7 +33,15 @@ exports.handler = (event, context, callback) => {
       body: JSON.stringify({
         username: 'mjs',
         icon_emoji: ':javascript:',
-        text: `I\'m just published. <${decodeURIComponent(url)}|${title || 'detail'}>`
+        text: `I\'m just post. **<${decodeURIComponent(url)}|${title || 'detail'}>**`,
+        pretext: `${title || 'detail'} - ${decodeURIComponent(url)}`,
+        color: '#5cb85c',
+        'unfurl_links': true, 
+        fields: {
+          title: title,
+          value: 'tumblr post',
+          short: false
+        }
       })
     }).then(()=>{
       callback(null, {
