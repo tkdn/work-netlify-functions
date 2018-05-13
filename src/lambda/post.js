@@ -13,13 +13,13 @@ exports.handler = async (event, context) => {
       if (res.statusCode === 200) {
         console.log('posted to slack')
       } else {
-        throw new Error('status code: ' + res.statusCode)
+        // err
       }
     })
     // error handle
     req.on('error', e => {
       console.log('problem with request: ' + e.message)
-      throw new Error(e.message)
+      // err
     })
     // request send
     req.write(JSON.stringify({
