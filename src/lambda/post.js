@@ -19,7 +19,7 @@ exports.handler = (event, context, callback) => {
   }
   try {
     const { url, title, content } = parseQueryString(event.body)
-    if (!url && !title && !content) {
+    if (!url && !title) {
       callback(null, {
         statusCode: 400,
         body: 'Bad request'
@@ -40,13 +40,13 @@ exports.handler = (event, context, callback) => {
       body: JSON.stringify({
         username: 'mjs',
         icon_emoji: ':javascript:',
-        pretext: `my javascript stacks.`,
-        text: `<${decodedUrl}|I\'m just post>`,
+        pretext: 'my javascript stacks.',
+        text: `<${decodedUrl}|I\'m just post.>`,
         color: '#5cb85c',
         fields: [
           {
             title: decodedTitle,
-            value: decodedContent
+            value: 'blah blah blah'
           }
         ]
       })
