@@ -32,7 +32,7 @@ exports.handler = async (event, context) => {
     // response
     return {
       statusCode: 200,
-      body: `${title} - ${url} done.`
+      body: `${title} - ${url} done.\nSLACK_WEBHOOK_URL: ${slackUrl}`
     }
   } else {
     return {
